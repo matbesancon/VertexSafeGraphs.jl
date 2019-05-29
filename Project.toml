@@ -1,0 +1,10 @@
+name = "VertexSafeGraphs"
+uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
+authors = ["Mathieu Besançon <mathieu.besancon@gmail.com>"]
+version = "0.1.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
