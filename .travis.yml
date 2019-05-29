@@ -1,0 +1,17 @@
+language: julia
+os:
+  - linux
+julia:
+  - 1.0
+  - 1.1
+  - nightly
+
+matrix:
+  allow_failures:
+    - julia: nightly
+
+notifications:
+  email: false
+
+after_success:
+  - julia -e 'using Pkg; cd(Pkg.dir("VertexSafeGraphs")); Pkg.add("Coverage"); using Coverage; Codecov.submit(process_folder()); Coveralls.submit(process_folder())';
