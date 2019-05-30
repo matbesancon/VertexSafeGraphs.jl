@@ -16,7 +16,10 @@ VSafeGraph(nv::Integer) = VSafeGraph(LG.SimpleGraph(nv))
 
 LG.edges(g::VSafeGraph) = LG.edges(g.g)
 LG.edgetype(g::VSafeGraph) = LG.edgetype(g.g)
+
 LG.is_directed(g::VSafeGraph) = LG.is_directed(g.g)
+LG.is_directed(::Type{<:VSafeGraph}) = LG.is_directed(g.g)
+
 LG.ne(g::VSafeGraph) = LG.ne(g.g)
 LG.nv(g::VSafeGraph) = LG.nv(g.g) - length(g.deleted_vertices)
 LG.vertices(g::VSafeGraph) = (v for v in LG.vertices(g.g) if !(v in g.deleted_vertices))

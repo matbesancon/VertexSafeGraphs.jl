@@ -45,3 +45,14 @@ end
         @test LG.ne(inner) == LG.ne(g)
     end
 end
+
+@testset "Generic LG algorithms work" begin
+    nv = 45
+    inner = LG.CompleteGraph(nv)
+    g = VSafeGraph(inner)
+    removed_ok = LG.rem_vertex!(g, rand(1:nv))
+    @test removed_ok
+    # LG broken here
+    @test_throws BoundsError LG.pagerank(g)
+    @test_throws BoundsError LG.kruskal_mst(g)
+end
