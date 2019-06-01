@@ -24,18 +24,41 @@ LG.ne(g::VSafeGraph) = LG.ne(g.g)
 LG.nv(g::VSafeGraph) = LG.nv(g.g) - length(g.deleted_vertices)
 LG.vertices(g::VSafeGraph) = (v for v in LG.vertices(g.g) if !(v in g.deleted_vertices))
 
-LG.outneighbors(g::VSafeGraph, v) = LG.outneighbors(g.g, v)
-LG.inneighbors(g::VSafeGraph, v) = LG.inneighbors(g.g, v)
 LG.has_vertex(g::VSafeGraph, v) = LG.has_vertex(g.g, v) && !(v in g.deleted_vertices)
 
 LG.has_edge(g::VSafeGraph, e) = LG.has_edge(g.g, e)
 
-LG.add_edge!(g::VSafeGraph, v1, v2) = LG.add_edge!(g.g, v1, v2)
-LG.add_vertex!(g::VSafeGraph, v) = LG.add_vertex!(g.g, v)
+LG.add_vertex!(g::VSafeGraph) = LG.add_vertex!(g.g)
 
 LG.rem_edge!(g::VSafeGraph, v1, v2) = LG.rem_edge!(g.g, v1, v2)
 
 Base.copy(g::VSafeGraph) = VSafeGraph(copy(g.g), copy(g.deleted_vertices))
+
+
+function LG.outneighbors(g::VSafeGraph, v)
+    if has_vertex(g, v)
+        LG.outneighbors(g.g, v)
+    else
+        throw(ArgumentError("$v is not a valid vertex in graph."))
+    end
+end
+
+function LG.inneighbors(g::VSafeGraph, v)
+    if has_vertex(g, v)
+        LG.inneighbors(g.g, v)
+    else
+        throw(ArgumentError("$v is not a valid vertex in graph."))
+    end
+end
+
+function LG.add_edge!(g::VSafeGraph, v1, v2)
+    if has_vertex(g, v1) && has_vertex(g2, v2)
+        LG.add_edge!(g.g, v1, v2)
+        return true
+    else
+        return false
+    end
+end
 
 function LG.rem_vertex!(g::VSafeGraph, v1)
     if !LG.has_vertex(g, v1) || v1 in g.deleted_vertices
