@@ -5,6 +5,11 @@ const LG = LightGraphs
 
 export VSafeGraph
 
+"""
+    VSafeGraph{T, G<:LG.AbstractGraph{T}, V<:AbstractVector{Int}}
+
+A `LightGraphs.AbstractGraph` type maintaining vertex numbering, even after vertex removal.
+"""
 struct VSafeGraph{T, G<:LG.AbstractGraph{T}, V<:AbstractVector{Int}} <: LG.AbstractGraph{T}
     g::G
     deleted_vertices::V
