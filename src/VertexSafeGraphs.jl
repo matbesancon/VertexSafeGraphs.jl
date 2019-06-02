@@ -52,11 +52,10 @@ function LG.inneighbors(g::VSafeGraph, v)
 end
 
 function LG.add_edge!(g::VSafeGraph, v1, v2)
-    if LG.has_vertex(g, v1) && LG.has_vertex(g, v2)
-        LG.add_edge!(g.g, v1, v2)
-        return true
-    else
+    if !LG.has_vertex(g, v1) || !LG.has_vertex(g, v2)
         return false
+    else
+        LG.add_edge!(g.g, v1, v2)
     end
 end
 
