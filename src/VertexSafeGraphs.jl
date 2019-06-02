@@ -56,6 +56,7 @@ function LG.add_edge!(g::VSafeGraph, v1, v2)
         return false
     else
         LG.add_edge!(g.g, v1, v2)
+        return true
     end
 end
 
