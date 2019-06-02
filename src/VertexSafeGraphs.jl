@@ -18,7 +18,8 @@ LG.edges(g::VSafeGraph) = LG.edges(g.g)
 LG.edgetype(g::VSafeGraph) = LG.edgetype(g.g)
 
 LG.is_directed(g::VSafeGraph) = LG.is_directed(g.g)
-LG.is_directed(::Type{<:VSafeGraph}) = LG.is_directed(g.g)
+LG.is_directed(::Type{VSafeGraph}) = false
+LG.is_directed(::Type{<:VSafeGraph{T,G}}) where {T, G} = LG.is_directed(G)
 
 LG.ne(g::VSafeGraph) = LG.ne(g.g)
 LG.nv(g::VSafeGraph) = LG.nv(g.g) - length(g.deleted_vertices)
