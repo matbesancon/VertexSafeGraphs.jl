@@ -36,7 +36,7 @@ Base.copy(g::VSafeGraph) = VSafeGraph(copy(g.g), copy(g.deleted_vertices))
 
 
 function LG.outneighbors(g::VSafeGraph, v)
-    if has_vertex(g, v)
+    if LG.has_vertex(g, v)
         LG.outneighbors(g.g, v)
     else
         throw(ArgumentError("$v is not a valid vertex in graph."))
@@ -44,7 +44,7 @@ function LG.outneighbors(g::VSafeGraph, v)
 end
 
 function LG.inneighbors(g::VSafeGraph, v)
-    if has_vertex(g, v)
+    if LG.has_vertex(g, v)
         LG.inneighbors(g.g, v)
     else
         throw(ArgumentError("$v is not a valid vertex in graph."))
@@ -52,7 +52,7 @@ function LG.inneighbors(g::VSafeGraph, v)
 end
 
 function LG.add_edge!(g::VSafeGraph, v1, v2)
-    if has_vertex(g, v1) && has_vertex(g2, v2)
+    if LG.has_vertex(g, v1) && LG.has_vertex(g, v2)
         LG.add_edge!(g.g, v1, v2)
         return true
     else
