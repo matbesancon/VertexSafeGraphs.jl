@@ -21,6 +21,7 @@ const LG = LightGraphs
 
     @test LG.has_edge(g2, 1, 2)
     @test LG.has_edge(g2, LG.SimpleEdge(1, 2))
+    @test LG.edgetype(g2) == LG.edgetype(g2_inner)
 
     g3 = VSafeGraph(LG.CompleteDiGraph(30))
     @test !LG.add_edge!(g3, 1, 2) # no possible addition on a complete graph
