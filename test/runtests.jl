@@ -11,7 +11,13 @@ const LG = LightGraphs
     g1 = VSafeGraph(nv)
     @test LG.nv(g1) == nv
     @test LG.nv(g1.g) == nv
-
+    @test LG.ne(g1) == 0
+    @test LG.add_edge!(g1, 1, 2)
+    g1_copy = copy(g1)
+    @test LG.ne(g1) == 1 == LG.ne(g1_copy)
+    @test LG.add_edge!(g1, 1, 3)
+    @test LG.ne(g1) == 2 == LG.ne(g1_copy) + 1
+    
     g2_inner = LG.CompleteGraph(nv)
     g2 = VSafeGraph(g2_inner)
     @test LG.nv(g2) == LG.nv(g2_inner)
