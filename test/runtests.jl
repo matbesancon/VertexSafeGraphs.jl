@@ -59,6 +59,9 @@ end
 
         @test LG.ne(inner) == LG.ne(g)
     end
+    @test LG.add_vertex!(g)
+    @test LG.nv(g) == nv - nrm + 1
+    @test LG.nv(g.g) == nv + 1
 end
 
 
