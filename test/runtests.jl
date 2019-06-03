@@ -22,6 +22,9 @@ const LG = LightGraphs
     g3 = VSafeGraph(LG.CompleteDiGraph(30))
     @test LG.is_directed(g3)
     @test !LG.is_directed(g2)
+    @test LG.is_directed(typeof(g3))
+    @test !LG.is_directed(typeof(g2))
+    @test !LG.is_directed(VSafeGraph)
 end
 
 @testset "Vertex deletion" begin
@@ -74,9 +77,8 @@ end
         if added_ok
             nea += 1
         end
-
         @test LG.ne(g) == ne + nea
-	@test LG.nv(g) == nv - nrv
+	    @test LG.nv(g) == nv - nrv
     end
 end
 
