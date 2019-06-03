@@ -32,14 +32,14 @@ LG.vertices(g::VSafeGraph) = (v for v in LG.vertices(g.g) if !(v in g.deleted_ve
 
 LG.has_vertex(g::VSafeGraph, v) = LG.has_vertex(g.g, v) && !(v in g.deleted_vertices)
 
-LG.has_edge(g::VSafeGraph, e) = LG.has_edge(g.g, e)
+LG.has_edge(g::VSafeGraph, src, dst) = LG.has_edge(g.g, src, dst)
+LG.has_edge(g::VSafeGraph, edge::LG.AbstractEdge) = LG.has_edge(g.g, LG.src(edge), LG.dst(edge))
 
 LG.add_vertex!(g::VSafeGraph) = LG.add_vertex!(g.g)
 
 LG.rem_edge!(g::VSafeGraph, v1, v2) = LG.rem_edge!(g.g, v1, v2)
 
 Base.copy(g::VSafeGraph) = VSafeGraph(copy(g.g), copy(g.deleted_vertices))
-
 
 function LG.outneighbors(g::VSafeGraph, v)
     if LG.has_vertex(g, v)
@@ -63,6 +63,8 @@ function LG.add_edge!(g::VSafeGraph, v1, v2)
     end
     return LG.add_edge!(g.g, v1, v2)
 end
+
+LG.add_edge!(g::VSafeGraph, edge::LG.AbstractEdge) = LG.add_edge!(g, LG.src(edge), LG.dst(edge))
 
 function LG.rem_vertex!(g::VSafeGraph, v1)
     if !LG.has_vertex(g, v1) || v1 in g.deleted_vertices

@@ -19,7 +19,12 @@ const LG = LightGraphs
 
     @test all(sort(collect(LG.vertices(g2))) .== sort(collect(LG.vertices(g2_inner))))
 
+    @test LG.has_edge(g2, 1, 2)
+    @test LG.has_edge(g2, LG.SimpleEdge(1, 2))
+
     g3 = VSafeGraph(LG.CompleteDiGraph(30))
+    @test !LG.add_edge!(g3, 1, 2) # no possible addition on a complete graph
+    @test !LG.add_edge!(g3, LG.SimpleEdge(1, 2))
     @test LG.is_directed(g3)
     @test !LG.is_directed(g2)
     @test LG.is_directed(typeof(g3))
