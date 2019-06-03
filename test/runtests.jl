@@ -11,7 +11,13 @@ const LG = LightGraphs
     g1 = VSafeGraph(nv)
     @test LG.nv(g1) == nv
     @test LG.nv(g1.g) == nv
-
+    @test LG.ne(g1) == 0
+    @test LG.add_edge!(g1, 1, 2)
+    g1_copy = copy(g1)
+    @test LG.ne(g1) == 1 == LG.ne(g1_copy)
+    @test LG.add_edge!(g1, 1, 3)
+    @test LG.ne(g1) == 2 == LG.ne(g1_copy) + 1
+    
     g2_inner = LG.CompleteGraph(nv)
     g2 = VSafeGraph(g2_inner)
     @test LG.nv(g2) == LG.nv(g2_inner)
@@ -19,9 +25,18 @@ const LG = LightGraphs
 
     @test all(sort(collect(LG.vertices(g2))) .== sort(collect(LG.vertices(g2_inner))))
 
+    @test LG.has_edge(g2, 1, 2)
+    @test LG.has_edge(g2, LG.SimpleEdge(1, 2))
+    @test LG.edgetype(g2) == LG.edgetype(g2_inner)
+
     g3 = VSafeGraph(LG.CompleteDiGraph(30))
+    @test !LG.add_edge!(g3, 1, 2) # no possible addition on a complete graph
+    @test !LG.add_edge!(g3, LG.SimpleEdge(1, 2))
     @test LG.is_directed(g3)
     @test !LG.is_directed(g2)
+    @test LG.is_directed(typeof(g3))
+    @test !LG.is_directed(typeof(g2))
+    @test !LG.is_directed(VSafeGraph)
 end
 
 @testset "Vertex deletion" begin
@@ -44,6 +59,9 @@ end
 
         @test LG.ne(inner) == LG.ne(g)
     end
+    @test LG.add_vertex!(g)
+    @test LG.nv(g) == nv - nrm + 1
+    @test LG.nv(g.g) == nv + 1
 end
 
 
@@ -74,9 +92,8 @@ end
         if added_ok
             nea += 1
         end
-
         @test LG.ne(g) == ne + nea
-	@test LG.nv(g) == nv - nrv
+	    @test LG.nv(g) == nv - nrv
     end
 end
 
