@@ -37,6 +37,8 @@ const LG = LightGraphs
     @test LG.is_directed(typeof(g3))
     @test !LG.is_directed(typeof(g2))
     @test !LG.is_directed(VSafeGraph)
+    @test 15 in LG.vertices(g3)
+    @test !in(33, LG.vertices(g3))
 end
 
 @testset "Vertex deletion" begin
@@ -46,12 +48,17 @@ end
     g = VSafeGraph(inner)
     @test LG.ne(inner) == LG.ne(g)
     @test LG.nv(inner) == LG.nv(g)
+    @test LG.has_vertex(g, 12)
+    @test 12 in LG.vertices(g)        
     nrm = 0
     for _ in 1:15
-        removed_ok = LG.rem_vertex!(g, rand(1:nv))
+        vertex = rand(1:nv)
+        removed_ok = LG.rem_vertex!(g, vertex)
         if !removed_ok
             continue
         end
+        @test !LG.has_vertex(g, vertex)
+        @test !(vertex in LG.vertices(g))        
         nrm += 1
         @test LG.nv(inner) == nv
         @test LG.nv(g) == nv - nrm
