@@ -18,7 +18,7 @@ const LG = LightGraphs
     @test LG.add_edge!(g1, 1, 3)
     @test LG.ne(g1) == 2 == LG.ne(g1_copy) + 1
     
-    g2_inner = LG.CompleteGraph(nv)
+    g2_inner = LG.complete_graph(nv)
     g2 = VSafeGraph(g2_inner)
     @test LG.nv(g2) == LG.nv(g2_inner)
     @test LG.ne(g2) == LG.ne(g2_inner)
@@ -29,7 +29,7 @@ const LG = LightGraphs
     @test LG.has_edge(g2, LG.SimpleEdge(1, 2))
     @test LG.edgetype(g2) == LG.edgetype(g2_inner)
 
-    g3 = VSafeGraph(LG.CompleteDiGraph(30))
+    g3 = VSafeGraph(LG.complete_digraph(30))
     @test !LG.add_edge!(g3, 1, 2) # no possible addition on a complete graph
     @test !LG.add_edge!(g3, LG.SimpleEdge(1, 2))
     @test LG.is_directed(g3)
@@ -42,7 +42,7 @@ end
 @testset "Vertex deletion" begin
     Random.seed!(33)
     nv = 45
-    inner = LG.CompleteGraph(nv)
+    inner = LG.complete_graph(nv)
     g = VSafeGraph(inner)
     @test LG.ne(inner) == LG.ne(g)
     @test LG.nv(inner) == LG.nv(g)
@@ -68,7 +68,7 @@ end
 @testset "Edge addition" begin
     Random.seed!(45)
     nv = 10
-    inner = LG.CompleteGraph(nv)
+    inner = LG.complete_graph(nv)
     g = VSafeGraph(inner)
     nea = 0         #number of edges added
     nrv = 0         #number of removed vertices
@@ -100,7 +100,7 @@ end
 @testset "Neighbor sets" begin
     Random.seed!(99)
     nv = 10
-    inner = LG.CompleteGraph(nv)
+    inner = LG.complete_graph(nv)
     g = VSafeGraph(inner)
     nrv = 0
     for _ in 1:5
@@ -122,11 +122,9 @@ end
     end
 end
 
-
-
 @testset "Generic LG algorithms work" begin
     nv = 45
-    inner = LG.CompleteGraph(nv)
+    inner = LG.complete_graph(nv)
     g = VSafeGraph(inner)
     removed_ok = LG.rem_vertex!(g, rand(1:nv))
     @test removed_ok
