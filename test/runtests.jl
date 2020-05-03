@@ -105,7 +105,7 @@ end
 end
 
 @testset "Neighbor sets" begin
-    Random.seed!(99)
+    Random.seed!(33)
     nv = 10
     inner = LG.complete_graph(nv)
     g = VSafeGraph(inner)
@@ -113,7 +113,7 @@ end
     for _ in 1:5
         removed_vertex = rand(1:nv)
         tv = rand(1:nv)
-        while !LG.has_vertex(g, tv)
+        while !LG.has_vertex(g, tv) || tv == removed_vertex
             tv = rand(1:nv)
         end
     	removed_ok = LG.rem_vertex!(g, removed_vertex)
