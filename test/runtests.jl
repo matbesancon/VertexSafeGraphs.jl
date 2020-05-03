@@ -111,20 +111,20 @@ end
     g = VSafeGraph(inner)
     nrv = 0
     for _ in 1:5
-        rv = rand(1:nv)
+        removed_vertex = rand(1:nv)
         tv = rand(1:nv)
         while !LG.has_vertex(g, tv)
             tv = rand(1:nv)
         end
-	removed_ok = LG.rem_vertex!(g, rv)
+    	removed_ok = LG.rem_vertex!(g, removed_vertex)
         if !removed_ok
             continue
         end
         nrv += 1
-        @test_throws ArgumentError LG.inneighbors(g, rv)
-        @test_throws ArgumentError LG.outneighbors(g, rv)
-        @test !(rv in LG.outneighbors(g, tv))
-        @test !(rv in LG.inneighbors(g, tv))
+        @test_throws ArgumentError LG.inneighbors(g, removed_vertex)
+        @test_throws ArgumentError LG.outneighbors(g, removed_vertex)
+        @test !(removed_vertex in LG.outneighbors(g, tv))
+        @test !(removed_vertex in LG.inneighbors(g, tv))
         @test LG.nv(g) == nv - nrv
     end
 end
