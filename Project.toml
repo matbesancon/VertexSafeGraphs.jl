@@ -1,7 +1,7 @@
 name = "VertexSafeGraphs"
 uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 authors = ["Mathieu Besançon <mathieu.besancon@gmail.com>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d"
