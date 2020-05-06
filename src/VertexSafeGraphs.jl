@@ -6,17 +6,17 @@ const LG = LightGraphs
 export VSafeGraph
 
 """
-    VSafeGraph{T, G<:LG.AbstractGraph{T}, V<:AbstractVector{Int}}
+    VSafeGraph{T, G<:LG.AbstractGraph{T}}
 
 A `LightGraphs.AbstractGraph` type maintaining vertex numbering, even after vertex removal.
 """
-struct VSafeGraph{T, G<:LG.AbstractGraph{T}, V<:AbstractVector{Int}} <: LG.AbstractGraph{T}
+struct VSafeGraph{T, G<:LG.AbstractGraph{T}} <: LG.AbstractGraph{T}
     g::G
-    deleted_vertices::V
-    VSafeGraph(g::G, v::V) where {T, G<:LG.AbstractGraph{T}, V<:AbstractVector{Int}} = new{T, G, V}(g, v)
+    deleted_vertices::BitSet
+    VSafeGraph(g::G, bs::BitSet) where {T, G<:LG.AbstractGraph{T}} = new{T, G}(g, bs)
 end
 
-VSafeGraph(g::G) where {G<:LG.AbstractGraph} = VSafeGraph(g, Vector{Int}())
+VSafeGraph(g::G) where {G<:LG.AbstractGraph} = VSafeGraph(g, BitSet())
 VSafeGraph(nv::Integer) = VSafeGraph(LG.SimpleGraph(nv))
 
 LG.edges(g::VSafeGraph) = LG.edges(g.g)
